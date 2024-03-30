@@ -1,0 +1,31 @@
+There are three screens in the design, the first one is the signup one, the second one is the sign in and the other screens are for categories. The design is for desktop only, you can do it for mobile too if you want.
+
+A user visiting the URL will first sign up for the application and be taken to the homepage(friends suggestion screen) once he clicks the sign-up button.
+
+You must use Redux to manage states for the sign-in and sign-up.
+
+Data should be stored in the database which can be easily accessed.
+
+Once the user is signed up able to sign in to the application
+
+The following actions should be present in the application:
+
+The application should have a proper login system using tokens(Token-based authentication).
+
+Passwords stored in the database should be encrypted.
+
+After signing up, the user needs to select 10 categories.
+
+Unless the user selects 10 categories he/she should not be able to proceed to the next page.
+
+Technologies to be used:
+Next.js / React
+TypeScript - for front-end and back-end (For backend you can use JavaScript)
+Express.js
+MongoDB (Database)
+
+Submission Guidelines:
+You need to deploy the code and send us the following
+- Link to the GitHub Repository of your deployed code
+- Link to the Deployed URL
+- Link to your website/resume
