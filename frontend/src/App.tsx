@@ -1,13 +1,10 @@
-import { useState } from "react";
 import "./App.css";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Welcome } from "./pages/Welcome";
 import { Signup } from "./pages/Signup";
 import { SignIn } from "./pages/Signin";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <Routes>

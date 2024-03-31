@@ -1,6 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Schema, z } from "zod";
+import { useDispatch } from "react-redux";
+import { z } from "zod";
+import { signupUser } from "../slice/controllers";
+import { AppDispatch } from "../slice/userSlice";
 
 const schema = z.object({
   firstName: z
@@ -15,18 +18,24 @@ const schema = z.object({
   password: z.string().max(20).min(6).trim(),
 });
 type FormFeilds = z.infer<typeof schema>;
+
 export function Signup() {
+  const dispatch: AppDispatch = useDispatch();
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isSubmitting },
   } = useForm<FormFeilds>({ resolver: zodResolver(schema) });
-  //useForm<FormFeilds>({defaultValues:{email:"",username:""}}) this way we can also pre-populate form with the feilds we want pre-populated
-  const onSubmit: SubmitHandler<FormFeilds> = (data) => {
+
+  const onSubmit: SubmitHandler<FormFeilds> = (data: object) => {
     console.log(data);
-    //if this would've been an async function we could have used setError("root",{message:"some error"}) and then display the error like we are displaying othe errors
+    try {
+      dispatch(signupUser(data));
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
