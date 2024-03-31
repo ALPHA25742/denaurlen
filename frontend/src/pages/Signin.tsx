@@ -1,10 +1,18 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-type FormFeilds = {
-  username: string;
-  password: string;
-};
-export function Signin() {
-  const { register, handleSubmit } = useForm<FormFeilds>();
+import { z } from "zod";
+
+const schema = z.object({
+  username: z.string().max(20).min(1, { message: "it cannot be empty" }).trim(),
+  password: z.string().max(20).min(6).trim(),
+});
+type FormFeilds = z.infer<typeof schema>;
+export function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormFeilds>({ resolver: zodResolver(schema) });
   const onSubmit: SubmitHandler<FormFeilds> = (data) => {
     console.log(data);
   };
@@ -14,22 +22,19 @@ export function Signin() {
         <h1>Sign In</h1>
         <h2>Connect & Collect..!</h2>
         <section>
+          <input {...register("username")} type="text" placeholder="username" />
+          {errors.username && <div>{errors.username.message}</div>}
           <input
-            {...register("username")}
-            type="text"
-            placeholder="username"
-            required
-          />
-          <input
-            {...register("password", {
-              validate: (value) => value.length >= 6,
-            })}
+            {...register("password")}
             type="password"
             placeholder="password"
           />
+          {errors.password && <div>{errors.password.message}</div>}
         </section>
 
-        <button type="submit">Sign up</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Loading..." : "Sign In"}
+        </button>
       </form>
     </>
   );

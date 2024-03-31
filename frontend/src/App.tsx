@@ -3,6 +3,7 @@ import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Welcome } from "./pages/Welcome";
 import { Signup } from "./pages/Signup";
+import { SignIn } from "./pages/Signin";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -16,6 +17,7 @@ function App() {
           element={<Welcome />}
         />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route
           path="/details"
           // element={
