@@ -1,5 +1,6 @@
 import user from "../models/user.js";
 import bcrypt from "bcrypt";
+import { createToken } from "../app.js";
 
 export default async function signin(req, res) {
   console.log(req.body);
@@ -10,7 +11,9 @@ export default async function signin(req, res) {
         req.body.password,
         userExists.password
       );
-      matching ? res.json("successful login") : res.json("wrong password");
+      matching
+        ? res.json(createToken(userExists._id))
+        : res.json("wrong password");
     } else {
       res.json("user doesnt exist");
     }

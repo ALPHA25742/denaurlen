@@ -14,7 +14,8 @@ export default async function signup(req, res) {
     if (!userExists) {
       const newUser = new user(obj);
       const savedUser = await newUser.save();
-      res.json(savedUser);
+      const token = createToken(savedUser._id);
+      res.json({ savedUser, token });
     } else {
       res.json("user already exists");
     }
@@ -22,5 +23,4 @@ export default async function signup(req, res) {
     console.error(err.message, req.body);
     res.json(err.message);
   }
-  // const token = createToken(user._id);
 }

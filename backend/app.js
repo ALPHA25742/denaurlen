@@ -19,10 +19,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 dotenv.config();
 
-mongoose
-  .connect(process.env.mongodb_atlas_url)
-  .then((result) => console.log("connected to db"))
-  .catch((err) => console.log(err));
+try {
+  const conn = await mongoose.connect(process.env.mongodb_atlas_url);
+  if (conn) console.log("connected to db");
+} catch (err) {
+  console.log(err);
+}
 
 app.post("/signin", signin);
 app.post("/signup", signup);
@@ -30,10 +32,7 @@ app.get("/verifyToken", verifyToken);
 
 export const createToken = (_id) => {
   return jwt.sign(
-    {
-      _id,
-      // this is payload, which shoudnt contain sensetive data such as passwords
-    },
+    { _id },
     process.env.SECRET,
     { expiresIn: "3d" }
     //  means expires in 3 days
