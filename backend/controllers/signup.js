@@ -3,29 +3,24 @@ import { createToken } from "../app.js";
 import bcrypt from "bcrypt";
 
 export default async function signup(req, res) {
-  console.log(req.body);
-  user
-    .findOne({ email: req.body.email })
-    .then((userExists) => {
-      if (!userExists) {
-        const newUser = new user(req.body);
-        newUser
-          .save()
-          .then((result) => {
-            res.json(result);
-          })
-          .catch((err) => {
-            console.log(err.message, req.body);
-            res.json(err.message);
-          });
-      } else {
-        res.json("user already exists");
-      }
-    })
-    .catch((err) => {
-      res.json(err.message);
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(req.body.password, salt);
+  const obj = { ...req.body, password: hash };
+  console.log(obj);
+  try {
+    const userExists = await user.findOne({
+      $or: [{ email: req.body.email }, { username: req.body.username }],
     });
-  // const salt = await bcrypt.genSalt(10);
-  // const hash = await bcrypt.hash(password, salt);
+    if (!userExists) {
+      const newUser = new user(obj);
+      const savedUser = await newUser.save();
+      res.json(savedUser);
+    } else {
+      res.json("user already exists");
+    }
+  } catch (err) {
+    console.error(err.message, req.body);
+    res.json(err.message);
+  }
   // const token = createToken(user._id);
 }
