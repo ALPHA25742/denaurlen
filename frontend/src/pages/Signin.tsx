@@ -18,7 +18,8 @@ export default function SignIn() {
   } = useForm<FormFeilds>({ resolver: zodResolver(schema) });
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<FormFeilds> = async (data) => {
+  // const onSubmit: SubmitHandler<FormFeilds> = async (data) => {
+  const onSubmit: SubmitHandler<FormFeilds> = () => {
     try {
       // const result = await postRequest("/signin", data);
       // if (result !== "wrong password" && result !== "user doesnt exist") {

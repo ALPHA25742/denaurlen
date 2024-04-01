@@ -29,7 +29,8 @@ export default function Signup() {
     formState: { errors, isSubmitting },
   } = useForm<FormFeilds>({ resolver: zodResolver(schema) });
 
-  const onSubmit: SubmitHandler<FormFeilds> = async (data: object) => {
+  // const onSubmit: SubmitHandler<FormFeilds> = async (data: object) => {
+  const onSubmit: SubmitHandler<FormFeilds> = () => {
     try {
       // const result = await postRequest("check", data);
       // if (result == "user doesnt exist") {
