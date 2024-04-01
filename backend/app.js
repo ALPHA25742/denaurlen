@@ -11,8 +11,8 @@ const app = express();
 app.listen(3000);
 app.use(
   cors({
-    //   origin: ["https://legion-code.vercel.app"],
-    origin: "*",
+    origin: ["https://denaurlen.vercel.app"],
+    // origin: "*",
   })
 );
 app.use(express.json());
