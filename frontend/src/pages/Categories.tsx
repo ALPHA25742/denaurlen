@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
-import postRequest from "../slice/controllers";
+// import postRequest from "../slice/controllers";
 import { useNavigate } from "react-router-dom";
 
 export default function Categories() {
@@ -42,7 +42,7 @@ export default function Categories() {
   };
 
   const submitCategories = async () => {
-    const updatedData = { ...data, interestCategories: selectedCategories };
+    // const updatedData = { ...data, interestCategories: selectedCategories };
     try {
       // const result = await postRequest("/signup", updatedData);
       // localStorage.setItem("denaurlen-token", JSON.stringify(result.token));

@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
-import postRequest from "../slice/controllers";
+// import postRequest from "../slice/controllers";
 import { Link, useNavigate } from "react-router-dom";
 
 const schema = z.object({
