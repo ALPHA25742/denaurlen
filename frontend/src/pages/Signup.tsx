@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { z } from "zod";
-// import { AppDispatch, registerUser } from "../slice/userSlice";
+import { AppDispatch, registerUser } from "../slice/userSlice";
 import { Link, useNavigate } from "react-router-dom";
-// import postRequest from "../slice/controllers";
+import postRequest from "../slice/controllers";
 
 const schema = z.object({
   firstName: z
@@ -21,7 +21,7 @@ const schema = z.object({
 type FormFeilds = z.infer<typeof schema>;
 
 export default function Signup() {
-  // const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const {
     register,
@@ -29,14 +29,14 @@ export default function Signup() {
     formState: { errors, isSubmitting },
   } = useForm<FormFeilds>({ resolver: zodResolver(schema) });
 
-  // const onSubmit: SubmitHandler<FormFeilds> = async (data: object) => {
-  const onSubmit: SubmitHandler<FormFeilds> = () => {
+  const onSubmit: SubmitHandler<FormFeilds> = async (data: object) => {
+    // const onSubmit: SubmitHandler<FormFeilds> = () => {
     try {
-      // const result = await postRequest("check", data);
-      // if (result == "user doesnt exist") {
-      //   dispatch(registerUser(data));
-      navigate("/interests");
-      // } else alert(result);
+      const result = await postRequest("/check", data);
+      if (result == "user doesnt exist") {
+        dispatch(registerUser(data));
+        navigate("/interests");
+      } else alert(result);
     } catch (error) {
       alert(error);
     }

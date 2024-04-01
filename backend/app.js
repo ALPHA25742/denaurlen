@@ -9,15 +9,15 @@ import jwt from "jsonwebtoken";
 
 const app = express();
 app.listen(3000);
+dotenv.config();
 app.use(
   cors({
-    origin: [process.env.frontend_url],
-    // origin: "*",
+    // origin: [process.env.frontend_url],
+    origin: "*",
   })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-dotenv.config();
 
 try {
   const conn = await mongoose.connect(process.env.mongodb_atlas_url);

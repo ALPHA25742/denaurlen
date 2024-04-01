@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
-// import { useSelector } from "react-redux";
-// import postRequest from "../slice/controllers";
+import { useSelector } from "react-redux";
+import postRequest from "../slice/controllers";
 import { useNavigate } from "react-router-dom";
 
 export default function Categories() {
@@ -32,7 +32,7 @@ export default function Categories() {
     "Quotes",
     "Movies",
   ];
-  // const data = useSelector((state: any) => state.user.data);
+  const data = useSelector((state: any) => state.user.data);
   const navigate = useNavigate();
 
   const toggleCategory = (c: string) => {
@@ -41,13 +41,15 @@ export default function Categories() {
     else setSelectedCategories([...selectedCategories, c]);
   };
 
-  // const submitCategories = async () => {
-  const submitCategories = () => {
-    // const updatedData = { ...data, interestCategories: selectedCategories };
+  const submitCategories = async () => {
+    // const submitCategories = () => {
+    const updatedData = { ...data, interestCategories: selectedCategories };
     try {
-      // const result = await postRequest("/signup", updatedData);
-      // localStorage.setItem("denaurlen-token", JSON.stringify(result.token));
-      navigate("/friends");
+      const result = await postRequest("/signup", updatedData);
+      if (result.token) {
+        localStorage.setItem("denaurlen-token", JSON.stringify(result.token));
+        navigate("/friends");
+      } else alert(result);
     } catch (error) {
       console.error(error);
       alert("something went wrong");

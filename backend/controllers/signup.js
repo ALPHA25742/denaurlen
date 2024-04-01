@@ -3,6 +3,10 @@ import { createToken } from "../app.js";
 import bcrypt from "bcrypt";
 
 export default async function signup(req, res) {
+  console.log(req.body.password == undefined);
+  if (req.body.password == undefined) {
+    return res.json("messed up");
+  }
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(req.body.password, salt);
   const obj = { ...req.body, password: hash };

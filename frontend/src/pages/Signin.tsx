@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
-// import postRequest from "../slice/controllers";
+import postRequest from "../slice/controllers";
 import { Link, useNavigate } from "react-router-dom";
 
 const schema = z.object({
@@ -18,14 +18,14 @@ export default function SignIn() {
   } = useForm<FormFeilds>({ resolver: zodResolver(schema) });
   const navigate = useNavigate();
 
-  // const onSubmit: SubmitHandler<FormFeilds> = async (data) => {
-  const onSubmit: SubmitHandler<FormFeilds> = () => {
+  const onSubmit: SubmitHandler<FormFeilds> = async (data) => {
+    // const onSubmit: SubmitHandler<FormFeilds> = () => {
     try {
-      // const result = await postRequest("/signin", data);
-      // if (result !== "wrong password" && result !== "user doesnt exist") {
-      // localStorage.setItem("denaurlen-token", JSON.stringify(result.token));
-      navigate("/friends");
-      // }
+      const result = await postRequest("/signin", data);
+      if (result !== "wrong password" && result !== "user doesnt exist") {
+        localStorage.setItem("denaurlen-token", JSON.stringify(result.token));
+        navigate("/friends");
+      } else alert(result);
     } catch (error) {
       console.error(error);
       alert("something went wrong");
