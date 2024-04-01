@@ -11,7 +11,7 @@ const app = express();
 app.listen(3000);
 app.use(
   cors({
-    origin: ["https://denaurlen.vercel.app"],
+    origin: ["https://denaurlen-frontend.vercel.app"],
     // origin: "*",
   })
 );
@@ -26,6 +26,7 @@ try {
   console.log(err);
 }
 
+app.post("/testing", (req, res) => res.json("working"));
 app.post("/signin", signin);
 app.post("/signup", signup);
 app.get("/verify", verifyToken);
