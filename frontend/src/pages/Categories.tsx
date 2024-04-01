@@ -44,8 +44,8 @@ export default function Categories() {
   const submitCategories = async () => {
     const updatedData = { ...data, interestCategories: selectedCategories };
     try {
-      const result = await postRequest("/signup", updatedData);
-      localStorage.setItem("denaurlen-token", JSON.stringify(result.token));
+      // const result = await postRequest("/signup", updatedData);
+      // localStorage.setItem("denaurlen-token", JSON.stringify(result.token));
       navigate("/friends");
     } catch (error) {
       console.error(error);

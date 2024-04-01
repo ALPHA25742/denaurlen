@@ -31,11 +31,11 @@ export default function Signup() {
 
   const onSubmit: SubmitHandler<FormFeilds> = async (data: object) => {
     try {
-      const result = await postRequest("check", data);
-      if (result == "user doesnt exist") {
-        dispatch(registerUser(data));
-        navigate("/interests");
-      } else alert(result);
+      // const result = await postRequest("check", data);
+      // if (result == "user doesnt exist") {
+      //   dispatch(registerUser(data));
+      navigate("/interests");
+      // } else alert(result);
     } catch (error) {
       alert(error);
     }

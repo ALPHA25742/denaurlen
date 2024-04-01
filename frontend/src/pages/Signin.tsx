@@ -20,11 +20,11 @@ export default function SignIn() {
 
   const onSubmit: SubmitHandler<FormFeilds> = async (data) => {
     try {
-      const result = await postRequest("/signin", data);
-      if (result !== "wrong password" && result !== "user doesnt exist") {
-        localStorage.setItem("denaurlen-token", JSON.stringify(result.token));
-        navigate("/friends");
-      }
+      // const result = await postRequest("/signin", data);
+      // if (result !== "wrong password" && result !== "user doesnt exist") {
+      // localStorage.setItem("denaurlen-token", JSON.stringify(result.token));
+      navigate("/friends");
+      // }
     } catch (error) {
       console.error(error);
       alert("something went wrong");
