@@ -2,8 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { z } from "zod";
-import { signupUser } from "../slice/controllers";
-import { AppDispatch } from "../slice/userSlice";
+import { AppDispatch, registerUser } from "../slice/userSlice";
+import { Link, useNavigate } from "react-router-dom";
+import postRequest from "../slice/controllers";
 
 const schema = z.object({
   firstName: z
@@ -19,20 +20,24 @@ const schema = z.object({
 });
 type FormFeilds = z.infer<typeof schema>;
 
-export function Signup() {
+export default function Signup() {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormFeilds>({ resolver: zodResolver(schema) });
 
-  const onSubmit: SubmitHandler<FormFeilds> = (data: object) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormFeilds> = async (data: object) => {
     try {
-      dispatch(signupUser(data));
+      const result = await postRequest("/check", data);
+      if (result == "user doesnt exist") {
+        dispatch(registerUser(data));
+        navigate("/interests");
+      } else alert(result);
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   };
 
@@ -64,10 +69,21 @@ export function Signup() {
           {errors.password && <div>{errors.password.message}</div>}
         </section>
 
-        <button type="submit" disabled={isSubmitting}>
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          style={{
+            backgroundColor: "white",
+            padding: "5px",
+            margin: "20px",
+            borderRadius: "5px",
+            color: "black",
+          }}
+        >
           {isSubmitting ? "Loading..." : "Sign up"}
         </button>
       </form>
+      <Link to="/signin">Already a member of Denaurlen? Sign in</Link>
     </>
   );
 }

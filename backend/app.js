@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import signup from "./controllers/signup.js";
+import signup, { check } from "./controllers/signup.js";
 import signin from "./controllers/signin.js";
 import verifyToken from "./controllers/verifyToken.js";
 import cors from "cors";
@@ -28,7 +28,8 @@ try {
 
 app.post("/signin", signin);
 app.post("/signup", signup);
-app.get("/verifyToken", verifyToken);
+app.get("/verify", verifyToken);
+app.post("/check", check);
 
 export const createToken = (_id) => {
   return jwt.sign(

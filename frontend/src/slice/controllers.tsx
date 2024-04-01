@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const postRequest = async (path: string, payload: object) => {
+export default async function postRequest(path: string, payload: object) {
   try {
     const res = await fetch(import.meta.env.VITE_backend_url + path, {
       method: "POST",
@@ -9,20 +9,17 @@ const postRequest = async (path: string, payload: object) => {
       },
       body: JSON.stringify(payload),
     });
-    const data = await res.json();
-    console.log(data);
-    return data;
+    return await res.json();
   } catch (error) {
     return error;
   }
-};
+}
 
 export const signupUser = createAsyncThunk(
   "user/signupUser",
   async (obj: object) => {
     try {
-      const response = await postRequest("/signup", obj);
-      return response;
+      return await postRequest("/signup", obj);
     } catch (error) {
       return error;
     }
@@ -32,8 +29,7 @@ export const signinUser = createAsyncThunk(
   "user/signinUser",
   async (obj: object) => {
     try {
-      const response = await postRequest("/signin", obj);
-      return response;
+      return await postRequest("/signin", obj);
     } catch (error) {
       return error;
     }

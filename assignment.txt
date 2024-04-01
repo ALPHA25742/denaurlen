@@ -25,8 +25,3 @@ You need to deploy the code and send us the following
 - Link to the GitHub Repository of your deployed code
 - Link to the Deployed URL
 - Link to your website/resume
-
-plan: 
-send token when user signups or signins
-using nanoid for UIDs from @reduxjs/toolkit
-using the new routing system used in insignia
