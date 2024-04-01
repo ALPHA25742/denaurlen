@@ -39,15 +39,18 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={verified ? <Navigate to="/friends" /> : <Welcome />}
+          element={<Welcome />}
+          // element={verified ? <Navigate to="/friends" /> : <Welcome />}
         />
         <Route
           path="/signup"
-          element={verified ? <Navigate to="/friends" /> : <Signup />}
+          element={<Signup />}
+          // element={verified ? <Navigate to="/friends" /> : <Signup />}
         />
         <Route
           path="/signin"
-          element={verified ? <Navigate to="/friends" /> : <SignIn />}
+          element={<SignIn />}
+          // element={verified ? <Navigate to="/friends" /> : <SignIn />}
         />
         <Route path="/interests" element={<Categories />} />
         <Route path="/friends" element={<FriendSuggestions />} />
