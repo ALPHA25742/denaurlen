@@ -11,7 +11,7 @@ const app = express();
 app.listen(3000);
 app.use(
   cors({
-    origin: ["https://denaurlen-frontend.vercel.app"],
+    origin: [process.env.frontend_url],
     // origin: "*",
   })
 );
