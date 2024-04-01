@@ -31,7 +31,7 @@ export default function Signup() {
 
   const onSubmit: SubmitHandler<FormFeilds> = async (data: object) => {
     try {
-      const result = await postRequest("/check", data);
+      const result = await postRequest("check", data);
       if (result == "user doesnt exist") {
         dispatch(registerUser(data));
         navigate("/interests");
