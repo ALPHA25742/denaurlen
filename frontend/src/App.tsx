@@ -5,34 +5,34 @@ import Signup from "./pages/Signup";
 import SignIn from "./pages/Signin";
 import Categories from "./pages/Categories";
 import FriendSuggestions from "./pages/FriendsSuggestions";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 function App() {
-  const [verified, setVerified] = useState<any>(false);
+  // const [verified, setVerified] = useState<any>(false);
 
-  useEffect(() => {
-    const jsonValue = localStorage.getItem("denaurlen-token");
+  // useEffect(() => {
+  // const jsonValue = localStorage.getItem("denaurlen-token");
 
-    const verifyUser = async (arg: string) => {
-      try {
-        const response = await fetch(
-          import.meta.env.VITE_backend_url + "/verify",
-          {
-            headers: { Authorization: `Bearer ${arg}` },
-          }
-        );
-        await response.json();
-      } catch (error) {
-        console.error(error);
-        alert("something went wrong");
-      }
-    };
+  // const verifyUser = async (arg: string) => {
+  //   try {
+  //     const response = await fetch(
+  //       import.meta.env.VITE_backend_url + "/verify",
+  //       {
+  //         headers: { Authorization: `Bearer ${arg}` },
+  //       }
+  //     );
+  //     await response.json();
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("something went wrong");
+  //   }
+  // };
 
-    if (jsonValue != null && jsonValue != "undefined") {
-      const isVerified = verifyUser(JSON.parse(jsonValue));
-      setVerified(isVerified);
-    }
-  }, []);
+  // if (jsonValue != null && jsonValue != "undefined") {
+  //   const isVerified = verifyUser(JSON.parse(jsonValue));
+  //   setVerified(isVerified);
+  // }
+  // }, []);
 
   return (
     <>
