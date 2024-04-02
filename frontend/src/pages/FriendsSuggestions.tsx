@@ -1,5 +1,6 @@
 import { nanoid } from "@reduxjs/toolkit";
 import { useState } from "react";
+import friends from "../assets/friends.svg";
 
 export default function FriendSuggestions() {
   const [suggestedFriends, setSuggestedFriends] = useState([
@@ -36,6 +37,11 @@ export default function FriendSuggestions() {
   return (
     <>
       <h2>Suggestions for you</h2>
+      <div>
+        <img src={friends} alt="" />
+        <p>“Good company in a journey makes the way seems shorter.”</p>
+        <span>- Izzak Walton</span>
+      </div>
       <ul>
         {suggestedFriends.map((sf, index) => (
           <li

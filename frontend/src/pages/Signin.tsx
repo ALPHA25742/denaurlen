@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import postRequest from "../slice/controllers";
 import { Link, useNavigate } from "react-router-dom";
+import bg from "../assets/enterBg.svg";
 
 const schema = z.object({
   username: z.string().max(20).min(1, { message: "it cannot be empty" }).trim(),
@@ -34,35 +35,50 @@ export default function SignIn() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Sign In</h1>
-        <h2>Connect & Collect..!</h2>
-        <section>
-          <input {...register("username")} type="text" placeholder="username" />
-          {errors.username && <div>{errors.username.message}</div>}
-          <input
-            {...register("password")}
-            type="password"
-            placeholder="password"
-          />
-          {errors.password && <div>{errors.password.message}</div>}
-        </section>
+      <section>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1>Sign In</h1>
+          <h2>Connect & Collect..!</h2>
+          <section>
+            <input
+              {...register("username")}
+              type="text"
+              placeholder="username"
+            />
+            {errors.username && <div>{errors.username.message}</div>}
+            <input
+              {...register("password")}
+              type="password"
+              placeholder="password"
+            />
+            {errors.password && <div>{errors.password.message}</div>}
+          </section>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          style={{
-            backgroundColor: "white",
-            padding: "5px",
-            margin: "20px",
-            borderRadius: "5px",
-            color: "black",
-          }}
-        >
-          {isSubmitting ? "Loading..." : "Sign In"}
-        </button>
-      </form>
-      <Link to="/signup">Are you new to Denaurlen? Sign up</Link>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            style={{
+              backgroundColor: "white",
+              padding: "5px",
+              margin: "20px",
+              borderRadius: "5px",
+              color: "black",
+            }}
+          >
+            {isSubmitting ? "Loading..." : "Sign In"}
+          </button>
+        </form>
+        <Link to="/signup">Are you new to Denaurlen? Sign up</Link>
+        <div>
+          <span>Privacy Policy </span>
+          <span>Denaurlen Copyright @ 2021, All Rights Reserved</span>
+        </div>
+      </section>
+      <section>
+        <h1>DENAURLEN</h1>
+        <h2>Every dream has a demand..!</h2>
+        <img src={bg} alt="" />
+      </section>
     </>
   );
 }
