@@ -6,6 +6,7 @@ import { AppDispatch, registerUser } from "../slice/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import postRequest from "../slice/controllers";
 import bg from "../assets/enterBg.svg";
+import { Box, CssBaseline, Typography } from "@mui/material";
 
 const schema = z.object({
   firstName: z
@@ -31,7 +32,6 @@ export default function Signup() {
   } = useForm<FormFeilds>({ resolver: zodResolver(schema) });
 
   const onSubmit: SubmitHandler<FormFeilds> = async (data: object) => {
-    // const onSubmit: SubmitHandler<FormFeilds> = () => {
     try {
       const result = await postRequest("/check", data);
       if (result == "user doesnt exist") {
@@ -44,45 +44,54 @@ export default function Signup() {
   };
 
   return (
-    <>
-      <section>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        height: "100dvh",
+        justifyContent: "space-evenly",
+      }}
+    >
+      <CssBaseline />
+      <Box flex={1}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1>Sign Up</h1>
           <h2>Connect & Collect..!</h2>
-          <section>
+          <Box>
             <input
               {...register("firstName")}
               type="text"
-              placeholder="firstname"
+              placeholder="First Name"
             />
             {errors.firstName && <div>{errors.firstName.message}</div>}
             <input
               {...register("lastName")}
               type="text"
-              placeholder="lastname"
+              placeholder="Last Name"
             />
             {errors.lastName && <div>{errors.lastName.message}</div>}
-            <input {...register("email")} type="email" placeholder="email" />
+            <input {...register("email")} type="email" placeholder="Email" />
             {errors.email && <div>{errors.email.message}</div>}
             <input
               {...register("location")}
               type="text"
-              placeholder="location"
+              placeholder="Location"
             />
             {errors.location && <div>{errors.location.message}</div>}
             <input
               {...register("username")}
               type="text"
-              placeholder="username"
+              placeholder="Username"
             />
             {errors.username && <div>{errors.username.message}</div>}
             <input
               {...register("password")}
               type="password"
-              placeholder="password"
+              placeholder="Password"
             />
             {errors.password && <div>{errors.password.message}</div>}
-          </section>
+            <input type="password" placeholder="Re-enter" />
+          </Box>
 
           <button
             type="submit"
@@ -101,14 +110,31 @@ export default function Signup() {
         <Link to="/signin">Already a member of Denaurlen? Sign in</Link>
         <div>
           <span>Privacy Policy </span>
-          <span>Denaurlen Copyright @ 2021, All Rights Reserved</span>
+          <span>Denaurlen Copyright @ 2024, All Rights Reserved</span>
         </div>
-      </section>
-      <section>
-        <h1>DENAURLEN</h1>
-        <h2>Every dream has a demand..!</h2>
-        <img src={bg} alt="" />
-      </section>
-    </>
+      </Box>
+      <Box
+        flex={1}
+        sx={{
+          backgroundColor: "background.paper",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+        }}
+      >
+        <Box ml="150px">
+          <Typography
+            variant="h5"
+            mb={2}
+            color="primary"
+            sx={{ fontWeight: "bold" }}
+          >
+            DENAURLEN
+          </Typography>
+          <Typography>Every dream has a demand..!</Typography>
+        </Box>
+        <img src={bg} alt="" style={{ alignSelf: "center" }} />
+      </Box>
+    </Box>
   );
 }

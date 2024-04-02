@@ -20,7 +20,6 @@ export default function SignIn() {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormFeilds> = async (data) => {
-    // const onSubmit: SubmitHandler<FormFeilds> = () => {
     try {
       const result = await postRequest("/signin", data);
       if (result !== "wrong password" && result !== "user doesnt exist") {
@@ -71,7 +70,7 @@ export default function SignIn() {
         <Link to="/signup">Are you new to Denaurlen? Sign up</Link>
         <div>
           <span>Privacy Policy </span>
-          <span>Denaurlen Copyright @ 2021, All Rights Reserved</span>
+          <span>Denaurlen Copyright @ 2024, All Rights Reserved</span>
         </div>
       </section>
       <section>

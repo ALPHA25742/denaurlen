@@ -5,6 +5,29 @@ import SignIn from "./pages/Signin";
 import Categories from "./pages/Categories";
 import FriendSuggestions from "./pages/FriendsSuggestions";
 import { useEffect, useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const denaurlenTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#4B0082",
+    },
+    background: {
+      paper: "#F7F2FF",
+      default: "#FFFFFF",
+    },
+    text: {
+      primary: "#343434",
+    },
+  },
+  typography: {
+    fontFamily: "Poppins, sans-serif",
+    fontWeightRegular: 600,
+    button: {
+      textTransform: "none",
+    },
+  },
+});
 
 function App() {
   const [verified, setVerified] = useState<any>(false);
@@ -34,7 +57,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <ThemeProvider theme={denaurlenTheme}>
       <Routes>
         <Route
           path="/"
@@ -55,7 +78,7 @@ function App() {
         <Route path="/friends" element={<FriendSuggestions />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-    </>
+    </ThemeProvider>
   );
 }
 
