@@ -10,8 +10,21 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Modal,
   Typography,
 } from "@mui/material";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: "10px",
+  p: 4,
+};
 
 export default function FriendSuggestions() {
   const [suggestedFriends, setSuggestedFriends] = useState([
@@ -30,6 +43,9 @@ export default function FriendSuggestions() {
       following: false,
     },
   ]);
+  const [modal, setModal] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
 
   const toggleFollow = (index: number) => {
     if (index !== -1) {
@@ -41,7 +57,8 @@ export default function FriendSuggestions() {
       setSuggestedFriends(updatedList);
     } else {
       console.warn("Username not found in suggested friends list");
-      alert("something went wrong");
+      setOpen(true);
+      setModal("something went wrong");
     }
   };
 
@@ -121,6 +138,20 @@ export default function FriendSuggestions() {
             <Button sx={{ alignSelf: "center", my: "10px" }}>Skip</Button>
           </Box>
         </Box>
+        {modal && (
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                {modal}
+              </Typography>
+            </Box>
+          </Modal>
+        )}
       </Box>
     </>
   );

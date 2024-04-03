@@ -27,12 +27,27 @@ import Interested from "../assets/categories/Interested.svg";
 import Photos from "../assets/categories/Photos.svg";
 import Quotes from "../assets/categories/Quotes.svg";
 import Movies from "../assets/categories/Movies.svg";
-import { Box, Button, CssBaseline, Typography } from "@mui/material";
+import { Box, Button, CssBaseline, Modal, Typography } from "@mui/material";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: "10px",
+  p: 4,
+};
 
 export default function Categories() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const data = useSelector((state: any) => state.user.data);
   const navigate = useNavigate();
+  const [modal, setModal] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
   const firstRow = [
     ["Travel", Travel],
     ["Brands", Brands],
@@ -77,10 +92,14 @@ export default function Categories() {
       if (result.token) {
         localStorage.setItem("denaurlen-token", JSON.stringify(result.token));
         navigate("/friends");
-      } else alert(result);
+      } else {
+        setOpen(true);
+        setModal(result);
+      }
     } catch (error) {
       console.error(error);
-      alert("something went wrong");
+      setOpen(true);
+      setModal("something went wrong");
     }
   };
 
@@ -223,6 +242,20 @@ export default function Categories() {
           Next
         </Button>
       </Box>
+      {modal && (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {modal}
+            </Typography>
+          </Box>
+        </Modal>
+      )}
     </Box>
   );
 }

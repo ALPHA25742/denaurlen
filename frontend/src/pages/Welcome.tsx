@@ -4,6 +4,7 @@ import secondImage from "../assets/welcome/2.svg";
 import thirdImage from "../assets/welcome/3.svg";
 import Button from "@mui/material/Button";
 import { Box, CssBaseline, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function Welcome() {
   const features = [
@@ -61,9 +62,21 @@ export default function Welcome() {
           </Box>
         ))}
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Button variant="contained" href="/signup">
-          Get Started
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button variant="contained">
+          <Link
+            to="/signup"
+            style={{
+              color: "white",
+            }}
+          >
+            Get Started
+          </Link>
         </Button>
       </Box>
     </Box>

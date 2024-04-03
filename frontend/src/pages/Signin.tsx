@@ -10,10 +10,24 @@ import {
   Checkbox,
   CssBaseline,
   FormControlLabel,
+  Modal,
   TextField,
   Typography,
 } from "@mui/material";
 import icon from "../assets/@.svg";
+import { useState } from "react";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: "10px",
+  p: 4,
+};
 
 const schema = z.object({
   username: z.string().trim().max(20).min(1, { message: "it cannot be empty" }),
@@ -32,6 +46,9 @@ export default function SignIn() {
     formState: { errors, isSubmitting },
   } = useForm<FormFeilds>({ resolver: zodResolver(schema) });
   const navigate = useNavigate();
+  const [modal, setModal] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
 
   const onSubmit: SubmitHandler<FormFeilds> = async (data) => {
     try {
@@ -39,10 +56,14 @@ export default function SignIn() {
       if (result !== "wrong password" && result !== "user doesnt exist") {
         localStorage.setItem("denaurlen-token", JSON.stringify(result.token));
         navigate("/friends");
-      } else alert(result);
+      } else {
+        setOpen(true);
+        setModal(result);
+      }
     } catch (error) {
       console.error(error);
-      alert("something went wrong");
+      setOpen(true);
+      setModal("something went wrong");
     }
     console.log(data);
   };
@@ -159,6 +180,20 @@ export default function SignIn() {
         </Box>
         <img src={bg} alt="" style={{ alignSelf: "center" }} />
       </Box>
+      {modal && (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {modal}
+            </Typography>
+          </Box>
+        </Modal>
+      )}
     </Box>
   );
 }

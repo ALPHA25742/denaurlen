@@ -12,11 +12,24 @@ import {
   Checkbox,
   CssBaseline,
   FormControlLabel,
+  Modal,
   TextField,
   Typography,
 } from "@mui/material";
 import icon from "../assets/@.svg";
 import { useState } from "react";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: "10px",
+  p: 4,
+};
 
 const schema = z.object({
   firstName: z
@@ -40,6 +53,9 @@ export default function Signup() {
   const dispatch: AppDispatch = useDispatch();
   const [accepted, setAccepted] = useState(false);
   const navigate = useNavigate();
+  const [modal, setModal] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
   const {
     register,
     handleSubmit,
@@ -53,12 +69,19 @@ export default function Signup() {
         if (result == "user doesnt exist") {
           dispatch(registerUser(data));
           navigate("/interests");
-        } else alert(result);
-      } catch (error) {
-        alert(error);
+        } else {
+          setOpen(true);
+          setModal(result);
+        }
+      } catch (error: any) {
+        setOpen(true);
+        setModal(error);
       }
       console.log(data);
-    } else alert("please accept the Terms & Conditions");
+    } else {
+      setOpen(true);
+      setModal("please accept the Terms & Conditions");
+    }
   };
 
   return (
@@ -232,6 +255,20 @@ export default function Signup() {
         </Box>
         <img src={bg} alt="" style={{ alignSelf: "center" }} />
       </Box>
+      {modal && (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {modal}
+            </Typography>
+          </Box>
+        </Modal>
+      )}
     </Box>
   );
 }
