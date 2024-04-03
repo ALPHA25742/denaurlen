@@ -27,14 +27,7 @@ import Interested from "../assets/categories/Interested.svg";
 import Photos from "../assets/categories/Photos.svg";
 import Quotes from "../assets/categories/Quotes.svg";
 import Movies from "../assets/categories/Movies.svg";
-import {
-  AppBar,
-  Box,
-  Button,
-  CssBaseline,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Box, Button, CssBaseline, Typography } from "@mui/material";
 
 export default function Categories() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
