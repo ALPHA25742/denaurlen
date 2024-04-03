@@ -61,17 +61,14 @@ function App() {
       <Routes>
         <Route
           path="/"
-          // element={<Welcome />}
           element={verified ? <Navigate to="/friends" /> : <Welcome />}
         />
         <Route
           path="/signup"
-          // element={<Signup />}
           element={verified ? <Navigate to="/friends" /> : <Signup />}
         />
         <Route
           path="/signin"
-          // element={<SignIn />}
           element={verified ? <Navigate to="/friends" /> : <SignIn />}
         />
         <Route path="/interests" element={<Categories />} />

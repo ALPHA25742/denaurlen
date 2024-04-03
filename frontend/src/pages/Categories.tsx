@@ -27,12 +27,20 @@ import Interested from "../assets/categories/Interested.svg";
 import Photos from "../assets/categories/Photos.svg";
 import Quotes from "../assets/categories/Quotes.svg";
 import Movies from "../assets/categories/Movies.svg";
+import {
+  AppBar,
+  Box,
+  Button,
+  CssBaseline,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 
 export default function Categories() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const data = useSelector((state: any) => state.user.data);
   const navigate = useNavigate();
-  const categoriesWithPhotos = [
+  const firstRow = [
     ["Travel", Travel],
     ["Brands", Brands],
     ["Art/Design", ArtDesign],
@@ -41,6 +49,8 @@ export default function Categories() {
     ["Food & Drinks", FoodDrinks],
     ["Cars", Cars],
     ["Species", Species],
+  ];
+  const secondRow = [
     ["Colors", Colors],
     ["Celebrities", Celebrities],
     ["Songs", Songs],
@@ -49,6 +59,8 @@ export default function Categories() {
     ["Technology", Technology],
     ["Bikes", Bikes],
     ["Web Series", WebSeries],
+  ];
+  const thirdRow = [
     ["Videos", Videos],
     ["Fashion", Fashion],
     ["Memes", Memes],
@@ -66,7 +78,6 @@ export default function Categories() {
   };
 
   const submitCategories = async () => {
-    // const submitCategories = () => {
     const updatedData = { ...data, interestCategories: selectedCategories };
     try {
       const result = await postRequest("/signup", updatedData);
@@ -81,43 +92,144 @@ export default function Categories() {
   };
 
   return (
-    <>
-      <section>
-        <h2>Choose your top 10 categories</h2>
-        <ul style={{ listStyleType: "none" }}>
-          {categoriesWithPhotos.map((category) => (
-            <div key={nanoid()} onClick={() => toggleCategory(category[0])}>
-              <span
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100dvh" }}>
+      <CssBaseline />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          m: "15px 0 0 25px",
+        }}
+      >
+        <Typography
+          variant="h6"
+          color="primary"
+          sx={{ fontWeight: "bold", mr: "30px" }}
+        >
+          DENAURLEN
+        </Typography>
+        <Typography color="text.primary">Categories</Typography>
+      </Box>
+      <Box
+        flex={1}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          // alignItems: "center",
+          justifyContent: "space-around",
+        }}
+      >
+        <Typography
+          variant="h6"
+          color="primary"
+          sx={{ bgcolor: "background.paper", textAlign: "center" }}
+        >
+          Choose your top 10 categories
+        </Typography>
+        <Box>
+          <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            {firstRow.map((category) => (
+              <Box
+                key={nanoid()}
+                onClick={() => toggleCategory(category[0])}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                {selectedCategories.includes(category[0])
-                  ? selectedCategories.indexOf(category[0]) + 1
-                  : null}
-              </span>
-              <img src={category[1]} alt="" />
-              <span
-                style={{
-                  backgroundColor: "white",
-                  margin: "15px",
-                  borderRadius: "5px",
-                  color: "black",
+                <p>
+                  {selectedCategories.includes(category[0])
+                    ? selectedCategories.indexOf(category[0]) + 1
+                    : null}
+                </p>
+                <img src={category[1]} alt="" />
+                <p
+                  style={{
+                    backgroundColor: "white",
+                    margin: "15px",
+                    borderRadius: "5px",
+                    color: "black",
+                  }}
+                >
+                  {category[0] + " "}
+                </p>
+              </Box>
+            ))}
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            {secondRow.map((category) => (
+              <Box
+                key={nanoid()}
+                onClick={() => toggleCategory(category[0])}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  // width: "12%",
+                  alignItems: "center",
                 }}
               >
-                {category[0] + " "}
-              </span>
-            </div>
-          ))}
-        </ul>
-        <button
+                <p>
+                  {selectedCategories.includes(category[0])
+                    ? selectedCategories.indexOf(category[0]) + 1
+                    : null}
+                </p>
+                <img src={category[1]} alt="" />
+                <p
+                  style={{
+                    backgroundColor: "white",
+                    margin: "15px",
+                    borderRadius: "5px",
+                    color: "black",
+                  }}
+                >
+                  {category[0] + " "}
+                </p>
+              </Box>
+            ))}
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            {thirdRow.map((category) => (
+              <Box
+                key={nanoid()}
+                onClick={() => toggleCategory(category[0])}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  // width: "12%",
+                  alignItems: "center",
+                }}
+              >
+                <p>
+                  {selectedCategories.includes(category[0])
+                    ? selectedCategories.indexOf(category[0]) + 1
+                    : null}
+                </p>
+                <img src={category[1]} alt="" />
+                <p
+                  style={{
+                    backgroundColor: "white",
+                    margin: "15px",
+                    borderRadius: "5px",
+                    color: "black",
+                  }}
+                >
+                  {category[0] + " "}
+                </p>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+        <Button
+          variant="contained"
           onClick={submitCategories}
           disabled={selectedCategories.length < 10}
+          sx={{ alignSelf: "center" }}
         >
-          next
-        </button>
-      </section>
-    </>
+          Next
+        </Button>
+      </Box>
+    </Box>
   );
 }

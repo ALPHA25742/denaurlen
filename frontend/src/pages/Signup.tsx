@@ -6,24 +6,39 @@ import { AppDispatch, registerUser } from "../slice/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import postRequest from "../slice/controllers";
 import bg from "../assets/enterBg.svg";
-import { Box, CssBaseline, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  CssBaseline,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
+import icon from "../assets/@.svg";
+import { useState } from "react";
 
 const schema = z.object({
   firstName: z
     .string()
+    .trim()
     .max(20)
-    .min(1, { message: "it cannot be empty" })
-    .trim(),
-  lastName: z.string().max(20).min(1, { message: "it cannot be empty" }).trim(),
-  email: z.string().email(),
-  location: z.string().min(1, { message: "it cannot be empty" }).trim(),
-  username: z.string().max(20).min(1, { message: "it cannot be empty" }).trim(),
-  password: z.string().max(20).min(6).trim(),
+    .min(1, { message: "it cannot be empty" }),
+  lastName: z.string().trim().max(20).min(1, { message: "it cannot be empty" }),
+  email: z.string().email().trim(),
+  location: z.string().trim().min(1, { message: "it cannot be empty" }),
+  username: z.string().trim().max(20).min(1, { message: "it cannot be empty" }),
+  password: z
+    .string()
+    .trim()
+    .max(20)
+    .min(6, { message: "it needs at least 6 characters" }),
 });
 type FormFeilds = z.infer<typeof schema>;
 
 export default function Signup() {
   const dispatch: AppDispatch = useDispatch();
+  const [accepted, setAccepted] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -32,15 +47,18 @@ export default function Signup() {
   } = useForm<FormFeilds>({ resolver: zodResolver(schema) });
 
   const onSubmit: SubmitHandler<FormFeilds> = async (data: object) => {
-    try {
-      const result = await postRequest("/check", data);
-      if (result == "user doesnt exist") {
-        dispatch(registerUser(data));
-        navigate("/interests");
-      } else alert(result);
-    } catch (error) {
-      alert(error);
-    }
+    if (accepted) {
+      try {
+        const result = await postRequest("/check", data);
+        if (result == "user doesnt exist") {
+          dispatch(registerUser(data));
+          navigate("/interests");
+        } else alert(result);
+      } catch (error) {
+        alert(error);
+      }
+      console.log(data);
+    } else alert("please accept the Terms & Conditions");
   };
 
   return (
@@ -53,65 +71,144 @@ export default function Signup() {
       }}
     >
       <CssBaseline />
-      <Box flex={1}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h1>Sign Up</h1>
-          <h2>Connect & Collect..!</h2>
-          <Box>
-            <input
-              {...register("firstName")}
-              type="text"
-              placeholder="First Name"
-            />
-            {errors.firstName && <div>{errors.firstName.message}</div>}
-            <input
-              {...register("lastName")}
-              type="text"
-              placeholder="Last Name"
-            />
-            {errors.lastName && <div>{errors.lastName.message}</div>}
-            <input {...register("email")} type="email" placeholder="Email" />
-            {errors.email && <div>{errors.email.message}</div>}
-            <input
-              {...register("location")}
-              type="text"
-              placeholder="Location"
-            />
-            {errors.location && <div>{errors.location.message}</div>}
-            <input
-              {...register("username")}
-              type="text"
-              placeholder="Username"
-            />
-            {errors.username && <div>{errors.username.message}</div>}
-            <input
-              {...register("password")}
-              type="password"
-              placeholder="Password"
-            />
-            {errors.password && <div>{errors.password.message}</div>}
-            <input type="password" placeholder="Re-enter" />
-          </Box>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            style={{
-              backgroundColor: "white",
-              padding: "5px",
-              margin: "20px",
-              borderRadius: "5px",
-              color: "black",
-            }}
+      <Box
+        flex={1}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+        }}
+      >
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{ margin: "50px 225px 0" }}
+        >
+          <Typography
+            variant="h4"
+            mb={3}
+            color="primary"
+            sx={{ fontWeight: "bold" }}
           >
-            {isSubmitting ? "Loading..." : "Sign up"}
-          </button>
+            Sign Up
+          </Typography>
+          <Typography mb={6}>Connect & Collect..!</Typography>
+          <Box>
+            <Box sx={{ display: "flex", my: "20px" }}>
+              <Box sx={{ display: "flex" }}>
+                <img src={icon} />
+                <TextField
+                  size="small"
+                  label="First Name"
+                  variant="filled"
+                  {...register("firstName")}
+                  helperText={errors.firstName && errors.firstName.message}
+                />
+              </Box>
+              <Box sx={{ display: "flex", ml: "30px" }}>
+                <img src={icon} />
+                <TextField
+                  size="small"
+                  label="Last Name"
+                  variant="filled"
+                  {...register("lastName")}
+                  helperText={errors.lastName && errors.lastName.message}
+                />
+              </Box>
+            </Box>
+            <Box sx={{ display: "flex", my: "20px" }}>
+              <img src={icon} />
+              <TextField
+                size="small"
+                fullWidth
+                label="Email"
+                variant="filled"
+                {...register("email")}
+                helperText={errors.email && errors.email.message}
+              />
+            </Box>
+            <Box sx={{ display: "flex", my: "20px" }}>
+              <img src={icon} />
+              <TextField
+                size="small"
+                fullWidth
+                label="Location"
+                variant="filled"
+                {...register("location")}
+                helperText={errors.location && errors.location.message}
+              />
+            </Box>
+            <Box sx={{ display: "flex", my: "20px" }}>
+              <img src={icon} />
+              <TextField
+                size="small"
+                fullWidth
+                label="Username"
+                variant="filled"
+                {...register("username")}
+                helperText={errors.username && errors.username.message}
+              />
+            </Box>
+            <Box sx={{ display: "flex", my: "20px" }}>
+              <Box sx={{ display: "flex" }}>
+                <img src={icon} />
+                <TextField
+                  size="small"
+                  label="Password"
+                  variant="filled"
+                  type="password"
+                  {...register("password")}
+                  helperText={errors.password && errors.password.message}
+                />
+              </Box>
+              <Box sx={{ display: "flex", ml: "30px" }}>
+                <img src={icon} />
+                <TextField
+                  size="small"
+                  type="password"
+                  label="Re-enter"
+                  variant="filled"
+                />
+              </Box>
+            </Box>
+          </Box>
+          <Box sx={{ fontSize: "small", mb: "8px" }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={accepted}
+                  onClick={() => setAccepted(!accepted)}
+                />
+              }
+              label="Accept Terms & Conditions."
+            />
+            <Link to="">Click Here</Link>
+          </Box>
+          <Box display="flex" flexDirection="column">
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={isSubmitting}
+              sx={{ py: "10px" }}
+            >
+              {isSubmitting ? "Loading..." : "Sign up"}
+            </Button>
+            <p style={{ fontWeight: 400, fontSize: "small" }}>
+              Already a member of Denaurlen? <Link to="/signin">Sign in</Link>
+            </p>
+          </Box>
         </form>
-        <Link to="/signin">Already a member of Denaurlen? Sign in</Link>
-        <div>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            fontWeight: 400,
+            fontSize: "small",
+          }}
+        >
           <span>Privacy Policy </span>
           <span>Denaurlen Copyright @ 2024, All Rights Reserved</span>
-        </div>
+        </Box>
       </Box>
       <Box
         flex={1}

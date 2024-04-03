@@ -4,10 +4,24 @@ import { z } from "zod";
 import postRequest from "../slice/controllers";
 import { Link, useNavigate } from "react-router-dom";
 import bg from "../assets/enterBg.svg";
+import {
+  Box,
+  Button,
+  Checkbox,
+  CssBaseline,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
+import icon from "../assets/@.svg";
 
 const schema = z.object({
-  username: z.string().max(20).min(1, { message: "it cannot be empty" }).trim(),
-  password: z.string().max(20).min(6).trim(),
+  username: z.string().trim().max(20).min(1, { message: "it cannot be empty" }),
+  password: z
+    .string()
+    .trim()
+    .max(20)
+    .min(6, { message: "it needs at least 6 characters" }),
 });
 type FormFeilds = z.infer<typeof schema>;
 
@@ -30,54 +44,121 @@ export default function SignIn() {
       console.error(error);
       alert("something went wrong");
     }
+    console.log(data);
   };
 
   return (
-    <>
-      <section>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h1>Sign In</h1>
-          <h2>Connect & Collect..!</h2>
-          <section>
-            <input
-              {...register("username")}
-              type="text"
-              placeholder="username"
-            />
-            {errors.username && <div>{errors.username.message}</div>}
-            <input
-              {...register("password")}
-              type="password"
-              placeholder="password"
-            />
-            {errors.password && <div>{errors.password.message}</div>}
-          </section>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            style={{
-              backgroundColor: "white",
-              padding: "5px",
-              margin: "20px",
-              borderRadius: "5px",
-              color: "black",
-            }}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        height: "100dvh",
+        justifyContent: "space-evenly",
+      }}
+    >
+      <CssBaseline />
+      <Box
+        flex={1}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+        }}
+      >
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{ margin: "50px 225px 0" }}
+        >
+          <Typography
+            variant="h4"
+            mb={3}
+            color="primary"
+            sx={{ fontWeight: "bold" }}
           >
-            {isSubmitting ? "Loading..." : "Sign In"}
-          </button>
+            Sign In
+          </Typography>
+          <Typography mb={6}>Connect & Collect..!</Typography>
+          <Box>
+            <Box sx={{ display: "flex", my: "20px" }}>
+              <img src={icon} />
+              <TextField
+                size="small"
+                fullWidth
+                label="Username"
+                variant="filled"
+                {...register("username")}
+                helperText={errors.username && errors.username.message}
+              />
+            </Box>
+            <Box sx={{ display: "flex", my: "20px" }}>
+              <Box sx={{ display: "flex" }}>
+                <img src={icon} />
+                <TextField
+                  size="small"
+                  label="Password"
+                  variant="filled"
+                  type="password"
+                  {...register("password")}
+                  helperText={errors.password && errors.password.message}
+                />
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            sx={{ mb: "8px", display: "flex", justifyContent: "space-between" }}
+          >
+            <FormControlLabel control={<Checkbox />} label="Remember me" />
+            <Button>Forgot Password?</Button>
+          </Box>
+          <Box display="flex" flexDirection="column">
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={isSubmitting}
+              sx={{ py: "10px" }}
+            >
+              {isSubmitting ? "Loading..." : "Sign In"}
+            </Button>
+            <p style={{ fontWeight: 400, fontSize: "small" }}>
+              Already a member of Denaurlen? <Link to="/signup">Sign Up</Link>
+            </p>
+          </Box>
         </form>
-        <Link to="/signup">Are you new to Denaurlen? Sign up</Link>
-        <div>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            fontWeight: 400,
+            fontSize: "small",
+          }}
+        >
           <span>Privacy Policy </span>
           <span>Denaurlen Copyright @ 2024, All Rights Reserved</span>
-        </div>
-      </section>
-      <section>
-        <h1>DENAURLEN</h1>
-        <h2>Every dream has a demand..!</h2>
-        <img src={bg} alt="" />
-      </section>
-    </>
+        </Box>
+      </Box>
+      <Box
+        flex={1}
+        sx={{
+          backgroundColor: "background.paper",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+        }}
+      >
+        <Box ml="150px">
+          <Typography
+            variant="h5"
+            mb={2}
+            color="primary"
+            sx={{ fontWeight: "bold" }}
+          >
+            DENAURLEN
+          </Typography>
+          <Typography>Every dream has a demand..!</Typography>
+        </Box>
+        <img src={bg} alt="" style={{ alignSelf: "center" }} />
+      </Box>
+    </Box>
   );
 }
